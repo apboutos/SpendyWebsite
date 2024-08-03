@@ -78,7 +78,7 @@ export class CategoryService {
   }
 
   private getAuthenticationHeaders(): HttpHeaders {
-    const authToken = localStorage.getItem('token');
+    const authToken = sessionStorage.getItem('token');
     let headers = new HttpHeaders()
     return  headers.append('Authorization', `Bearer ${authToken}`)
   }

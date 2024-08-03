@@ -98,7 +98,7 @@ export class EntryService {
   }
 
   private getAuthenticationHeaders(): HttpHeaders {
-    const authToken = localStorage.getItem('token');
+    const authToken = sessionStorage.getItem('token');
     return  new HttpHeaders().append('Authorization', `Bearer ${authToken}`);
   }
 
