@@ -78,9 +78,9 @@ export class ManageCategoriesModalComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (response: any) => {
             this.categories.push({
-              uuid: response.body.category.uuid,
-              name: response.body.category.name,
-              type: response.body.category.type,
+              uuid: response.body.uuid,
+              name: response.body.name,
+              type: response.body.type,
               createdAt: response.body.date,
               lastUpdate: response.body.lastUpdate,
               isDeleted: response.body.isDeleted,
