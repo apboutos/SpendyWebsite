@@ -1,20 +1,18 @@
 import {Component, OnDestroy, OnInit} from "@angular/core";
-import {NgForm} from "@angular/forms";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Router} from "@angular/router";
-import {Environment} from "../../environment";
-import {UserAuthenticationResponse} from "../../model/authenitcation-response";
+import {UserAuthenticationService} from "../../service/user-authentication.service";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'login-component',
-  templateUrl: 'login-component.html',
-  styleUrl: 'login-component.css'
+  templateUrl: 'login.component.html',
+  styleUrl: 'login.component.css'
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
-  private AUTHENTICATE_USER_URL =`${Environment.SPENDY_API_PRODUCTION_URL}/api/v1/users/authenticate`;
 
-  constructor(private httpClient: HttpClient, private router: Router) {
+
+  constructor(private router: Router, private userAuthenticationService: UserAuthenticationService) {
   }
 
   ngOnInit(): void {
@@ -23,19 +21,12 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onSubmit(loginForm: NgForm): void {
 
-    const body = {
-      "username": loginForm.value.username,
-      "password": loginForm.value.password
-    };
-
-    let headers = new HttpHeaders()
-    headers.set("Access-Control-Allow-Origin","*");
-
-    this.httpClient.post<UserAuthenticationResponse>(this.AUTHENTICATE_USER_URL, body, {headers}).subscribe({
+    this.userAuthenticationService.authenticate(loginForm.value.username, loginForm.value.password).subscribe({
       next: response => {
-        localStorage.setItem('token',response.token);
-        localStorage.setItem('username',loginForm.value.username);
-        this.router.navigateByUrl('/ledger').then(r => {});
+        sessionStorage.setItem('token',response.token);
+        sessionStorage.setItem('username',loginForm.value.username);
+        alert("Logged in successfully");
+        //this.router.navigateByUrl('/login').then(r => {});
       },
       error: response => {
         console.log(response.error);
