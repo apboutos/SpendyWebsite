@@ -1,4 +1,4 @@
-import {EntryType} from "../../../../Desktop/enums/EntryType";
+import {EntryType} from "../enums/EntryType";
 
 export class Entry {
     constructor(public uuid: string,

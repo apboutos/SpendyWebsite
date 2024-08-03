@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="toolbar">
+    <label>Summary</label>
+    <select id="summary-type-select" [(ngModel)]="summaryType" (ngModelChange)="log()">
+      <option>Daily</option>
+      <option>Monthly</option>
+      <option>Yearly</option>
+    </select>
+  </div>
+  <highcharts-chart
+    [Highcharts]="Highcharts"
+    [options]="chartOptions">
+  </highcharts-chart>
+</div>

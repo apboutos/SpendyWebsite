@@ -25,8 +25,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       next: response => {
         sessionStorage.setItem('token',response.token);
         sessionStorage.setItem('username',loginForm.value.username);
-        alert("Logged in successfully");
-        //this.router.navigateByUrl('/login').then(r => {});
+        this.router.navigateByUrl('/ledger').then(r => {});
       },
       error: response => {
         console.log(response.error);

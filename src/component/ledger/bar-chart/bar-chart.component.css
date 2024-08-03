@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.summary-type-select {
+  margin-top: 30px;
+}
+
+highcharts-chart {
+  width: 600px;
+  height: 600px;
+  display: block;
+  margin-top: 0px;
+}
+
+input[type="text"], select {
+  padding: 8px;
+  margin: 8px 4px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 200px;
+}

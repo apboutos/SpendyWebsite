@@ -9,6 +9,10 @@ import {provideHttpClient, withFetch, withInterceptorsFromDi} from "@angular/com
 import {provideRouter} from "@angular/router";
 import {provideAnimations} from "@angular/platform-browser/animations";
 import {provideAnimationsAsync} from "@angular/platform-browser/animations/async";
+import {LedgerComponent} from "../component/ledger/ledger-component";
+import {LedgerModule} from "../component/ledger/ledger-module";
+import {DateAdapter, MAT_DATE_FORMATS} from "@angular/material/core";
+import {CUSTOM_DATE_FORMATS, CustomDateAdapter} from "../util/custom-date-adapter";
 
 @NgModule({
   declarations: [
@@ -18,9 +22,18 @@ import {provideAnimationsAsync} from "@angular/platform-browser/animations/async
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    LoginModule
+    LoginModule,
+    LedgerModule
   ],
   providers: [
+    {
+      provide: DateAdapter,
+      useClass: CustomDateAdapter
+    },
+    {
+      provide: MAT_DATE_FORMATS,
+      useValue: CUSTOM_DATE_FORMATS,
+    },
     provideRouter(routes),
     provideClientHydration(),
     provideAnimations(),

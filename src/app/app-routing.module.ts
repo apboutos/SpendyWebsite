@@ -1,16 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {LoginComponent} from "../component/login/login.component";
+import {LedgerComponent} from "../component/ledger/ledger-component";
 
 export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
   },
-/*  {
+  {
     path: 'ledger',
     component: LedgerComponent
-  },*/
+  },
   {
     path: '',
     redirectTo: 'login',

@@ -1,0 +1,101 @@
+<div class="date-picker-container">
+  <button class="change-date-button" (click)="onPreviousDayButtonClick()"><</button>
+  <div class="mat-datepicker-content">
+    <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" (dateChange)="onNewDateSelected()">
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </div>
+  <button class="change-date-button" (click)="onNextDayButtonClick()">></button>
+</div>
+<div class="chart-table-container">
+  <div class="pie-chart-container">
+    <pie-chart></pie-chart>
+  </div>
+  <div class="table-container">
+      <div class="add-entry-toolbar">
+        <span class="add-entry-toolbar-label">Type</span>
+        <select [(ngModel)]="newEntry.type" (change)="onEntryTypeChange()">
+          <option *ngFor="let type of entryTypes" [value]="type">{{ type }}</option>
+        </select>
+        <span class="add-entry-toolbar-label">Category</span>
+        <select [(ngModel)]="newEntry.category">
+          <option *ngFor="let category of newEntryFilteredCategories" [value]="category.uuid">{{ category.name }}</option>
+        </select>
+        <input type="text" placeholder="Description" [(ngModel)]="newEntry.description">
+        <span class="add-entry-toolbar-label">Price</span>
+        <input type="number" placeholder="Price" [(ngModel)]="newEntry.price">
+        <img (click)="addEntry()" ngSrc="assets/button/icons8-add-64.png" alt="cancel" class="icon-button" height="64" width="64">
+        <div class="manage-categories-container">
+          <button mat-raised-button color="primary" (click)="onManageCategoriesClick()">Manage Categories</button>
+          <manage-categories-modal></manage-categories-modal>
+        </div>
+        <div class="display-aggregates-container">
+          <button mat-raised-button color="primary" (click)="onDisplaySummaryClick()">Summary</button>
+          <display-aggregates-modal></display-aggregates-modal>
+        </div>
+      </div>
+      <table>
+        <title>Entries</title>
+        <colgroup>
+          <col style="width: 10%;">
+          <col style="width: 24%;">
+          <col style="width: 40%;">
+          <col style="width: 16%;">
+          <col style="width: 10%;">
+        </colgroup>
+        <thead>
+        <tr>
+          <th>Type</th>
+          <th>Category</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let entry of entries; let i = index" [ngClass]="{'expense-row': entry.type === EntryType.EXPENSE, 'income-row': entry.type === EntryType.INCOME}">
+          <td>
+              <span *ngIf="!entry.isBeingEdited">{{ entry.type }}</span>
+              <select id="income" *ngIf="entry.isBeingEdited" type="text" [(ngModel)]="editedEntry.type" (change)="onEntryTypeChange()">
+                <option *ngFor="let type of entryTypes" [value]="type">{{type}}</option>
+              </select>
+          </td>
+          <td >
+            <span *ngIf="!entry.isBeingEdited">{{ getCategoryName(entry.category) }}</span>
+            <select *ngIf="entry.isBeingEdited" type="text" [(ngModel)]="editedEntry.category">
+              <option *ngFor="let category of editEntryFilteredCategories" [value]="category.uuid">{{category.name}}</option>
+            </select>
+          </td>
+          <td >
+            <span *ngIf="!entry.isBeingEdited">{{ entry.description }}</span>
+            <input *ngIf="entry.isBeingEdited" type="text" [(ngModel)]="editedEntry.description">
+          </td>
+          <td >
+            <span *ngIf="!entry.isBeingEdited">{{ entry.price | currency:'EUR'}}</span>
+            <input *ngIf="entry.isBeingEdited" type="number" [(ngModel)]="editedEntry.price">
+          </td>
+
+          <td>
+            <img (click)="editEntry(i)" class="icon-button" [hidden]="entry.isBeingEdited"
+                 ngSrc="assets/button/edit-icon-64.png" alt="edit" height="64"
+                 width="64">
+            <img (click)="removeEntry(i)" class="icon-button" [hidden]="entry.isBeingEdited"
+                 ngSrc="assets/button/icons8-delete-64.png" alt="delete"  height="64"
+                 width="64">
+            <img (click)="saveEntryEdit(i)" class="icon-button" [hidden]="!entry.isBeingEdited"
+                 ngSrc="assets/button/icons8-save-64.png" alt="save"  height="64"
+                 width="64">
+            <img (click)="cancelEntryEdit(i)" class="icon-button" [hidden]="!entry.isBeingEdited"
+                 ngSrc="assets/button/icons8-cancel-64.png" alt="cancel"  height="64"
+                 width="64">
+          </td>
+        </tr>
+        </tbody>
+      </table>
+  </div>
+  <div class="bar-chart-container">
+    <bar-chart></bar-chart>
+  </div>
+</div>
+
+

@@ -1,0 +1,253 @@
+/* Modal container */
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  z-index: 1000;
+}
+
+/* Modal content */
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 800px; /* Set modal width to 800px */
+  height: 850px;
+  max-width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  text-align: center;
+}
+
+.modal-content-conflict {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 800px; /* Set modal width to 800px */
+  height: 400px;
+  max-width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  text-align: center;
+}
+
+/* Close button */
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #aaa;
+  transition: color 0.3s ease;
+}
+
+.close:hover {
+  color: #000;
+}
+
+.table-body-container {
+  max-height: 600px; /* Set the maximum height you want */
+  height: 600px;
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+/* Optional: Style the scrollbar */
+.table-body-container::-webkit-scrollbar {
+  width: 12px; /* Width of the scrollbar */
+}
+
+.table-body-container::-webkit-scrollbar-thumb {
+  background-color: #888; /* Color of the scrollbar handle */
+  border-radius: 10px; /* Rounded corners for the scrollbar handle */
+}
+
+.table-body-container::-webkit-scrollbar-thumb:hover {
+  background-color: #2e38a1; /* Handle color on hover */
+}
+
+/* Table styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+colgroup col {
+  width: auto;
+}
+
+td {
+  text-align: left;
+  padding: 15px 12px; /* Increase padding to make rows taller */
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  text-align: left;
+  padding: 15px 12px;
+  border-bottom: 1px solid #ddd;
+  top: 0;
+  z-index: 2;
+  position: sticky;
+  background-color: #f4f4f4;
+}
+
+tr {
+  height: 60px; /* Set a fixed height for table rows */
+}
+
+/* Income and Expense row styles */
+.income-row {
+  background-color: #e6ffe6; /* Light green */
+}
+
+.expense-row {
+  background-color: #ffe6e6; /* Light red */
+}
+
+/* Input and select styles */
+input[type="text"], select {
+  width: 100%;
+  padding: 8px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Category type select style for add category */
+.category-type {
+  width: auto;
+  padding: 8px;
+  margin: 8px 10px 8px 0;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+
+.icon-button {
+  width: 32px;
+  height: 32px;
+  vertical-align: middle;
+}
+
+.icon-button:hover {
+  width: 32px;
+  height: 32px;
+  vertical-align: middle;
+  filter: brightness(0.8);
+}
+
+/* Add category section */
+.add-category {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.add-category select {
+  width: auto;
+}
+
+.add-category input[type="text"] {
+  width: calc(50% - 20px);
+  margin-right: 10px;
+}
+
+.add-category button {
+  margin-left: 10px;
+  white-space: nowrap;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: center; /* Center the buttons horizontally */
+  gap: 10px; /* Add some space between buttons */
+  padding: 10px; /* Optional: Add padding to the footer */
+  margin-top: auto; /* Push the footer to the bottom */
+}
+
+.modal-footer button {
+  padding: 10px 20px; /* Optional: Adjust button padding */
+}
+
+.button-apply {  background-color: #9ac550;
+  color: #ffffff;
+  width: 80px;
+  height: 40px;
+  font-size: 16px;
+  display: flex;
+  justify-content: center; /* Center text horizontally */
+  align-items: center; /* Center text vertically */
+  cursor: pointer; /* Add cursor pointer for better UX */
+}
+
+.button-apply-disabled {  background-color: #9ac550;
+  color: #ffffff;
+  width: 80px;
+  height: 40px;
+  font-size: 16px;
+  display: flex;
+  justify-content: center; /* Center text horizontally */
+  align-items: center; /* Center text vertically */
+  cursor: not-allowed; /* Add cursor pointer for better UX */
+}
+
+.button-cancel {
+  background-color: #ffffff;
+  color: #9ac550;
+  width: 80px;
+  height: 40px;
+  font-size: 16px;
+  display: flex;
+  justify-content: center; /* Center text horizontally */
+  align-items: center; /* Center text vertically */
+  cursor: pointer; /* Add cursor pointer for better UX */
+}
+
+.warning {
+  color: #ca1010;
+}
+
+/* Define classes for the Playfair Display font with different styles */
+.playfair-display-normal-400 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.playfair-display-italic-400 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.playfair-display-normal-700 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.playfair-display-italic-700 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.honk-400 {
+         font-family: "Honk", system-ui;
+         font-optical-sizing: auto;
+         font-weight: 400;
+         font-style: normal;
+         font-variation-settings:
+           "MORF" 18,
+           "SHLN" 40.1;
+}
+

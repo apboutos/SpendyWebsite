@@ -1,0 +1,99 @@
+<div *ngIf="isVisible" class="modal">
+  <div [ngClass]="{'modal-content': !conflictResolutionIsVisible, 'modal-content-conflict': conflictResolutionIsVisible}">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <div *ngIf="!conflictResolutionIsVisible">
+      <h2 class="honk-400">Manage Categories</h2>
+      <table>
+        <colgroup>
+          <col style="width: 20%;">
+          <col style="width: 68%;">
+          <col style="width: 12%;">
+        </colgroup>
+        <thead>
+        <tr>
+          <th>Type</th>
+          <th>Name</th>
+          <th></th>
+        </tr>
+        </thead>
+      </table>
+      <div class="table-body-container">
+        <table>
+          <colgroup>
+            <col style="width: 20%;">
+            <col style="width: 68%;">
+            <col style="width: 12%;">
+          </colgroup>
+          <tbody>
+          <tr *ngFor="let category of categories; let i = index"
+              [ngClass]="{'income-row': category.type === 'Income', 'expense-row': category.type === 'Expense'}">
+            <td>
+              <span type="text" [hidden]="category.isBeingEdited">{{category.type}}</span>
+              <select type="text" [(ngModel)]="editedCategory.type" [hidden]="!category.isBeingEdited">
+                <option *ngFor="let type of categoryTypes" [value]="type">{{type}}</option>
+              </select>
+            </td>
+            <td>
+              <span type="text" [hidden]="category.isBeingEdited">{{category.name}}</span>
+              <input type="text" [(ngModel)]="editedCategory.name" [hidden]="!category.isBeingEdited">
+            </td>
+            <td>
+              <img (click)="editCategory(i)" class="icon-button" [hidden]="category.isBeingEdited"
+                   ngSrc="assets/button/edit-icon-64.png" alt="edit" height="64"
+                   width="64">
+              <img (click)="removeCategory(i)" class="icon-button" [hidden]="category.isBeingEdited"
+                   ngSrc="assets/button/icons8-delete-64.png" alt="delete"  height="64"
+                   width="64">
+              <img (click)="saveCategoryEdit(i)" class="icon-button" [hidden]="!category.isBeingEdited"
+                   ngSrc="assets/button/icons8-save-64.png" alt="save"  height="64"
+                   width="64">
+              <img (click)="cancelCategoryEdit(i)" class="icon-button" [hidden]="!category.isBeingEdited"
+                   ngSrc="assets/button/icons8-cancel-64.png" alt="cancel"  height="64"
+                   width="64">
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="add-category">
+        <select class="category-type" [(ngModel)]="newCategory.type">
+          <option *ngFor="let type of categoryTypes" [value]="type">{{type}}</option>
+        </select>
+        <input type="text" placeholder="Name" [(ngModel)]="newCategory.name">
+        <img (click)="addCategory()" ngSrc="assets/button/icons8-add-64.png" alt="cancel" class="icon-button" height="64" width="64">
+      </div>
+    </div>
+    <div *ngIf="conflictResolutionIsVisible">
+      <p>The selected category cannot be deleted as there are entries that belong to it.
+        <br> Please choose how the entries should be handled.</p>
+      <select type="text" [(ngModel)]="selectedConflictOption">
+        <option>Replace category</option>
+        <option>Delete entries</option>
+      </select>
+      <div *ngIf="selectedConflictOption === 'Replace category'">
+            <span>Please select the replacement category</span>
+            <select [(ngModel)]="replacementCategoryName">
+              <option *ngFor="let category of categories"><span *ngIf="category.uuid !== categoryToBeDeleted.uuid">{{category.name}}</span></option>
+            </select>
+            <div *ngIf="replacementCategoryName !== ''">
+                <p class="warning">Warning! If you proceed the category of all entries in the {{categoryToBeDeleted.name}} category will be replaced with {{replacementCategoryName}}.
+                   You will not be able to revert this action. To proceed please type 'Yes' in the following box and click apply.</p>
+                <input type="text" [(ngModel)]="conflictResolutionConfirmation">
+            </div>
+          </div>
+      <div *ngIf="selectedConflictOption === 'Delete entries'">
+        <p class="warning">Warning! If you proceed all the entries in the old category will be deleted along with the category itself.
+           You will not be able to revert this action. To proceed please type 'Yes' in the following box and click apply.</p>
+        <input type="text" [(ngModel)]="conflictResolutionConfirmation">
+      </div>
+      <div class="modal-footer">
+          <button
+            [ngClass]="{'button-apply': conflictResolutionConfirmation !== '', 'button-apply-disabled': conflictResolutionConfirmation === ''}"
+            [disabled]="conflictResolutionConfirmation === ''" (click)="applyConflictResolution()">
+            Apply
+          </button>
+          <button class="button-cancel" (click)="cancelConflict()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

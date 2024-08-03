@@ -1,0 +1,52 @@
+<div *ngIf="isVisible" class="modal">
+  <div class="modal-content">
+    <span class="close-modal" (click)="closeModal()">&times;</span>
+      <table>
+        <colgroup>
+          <col style="width: 20%;">
+          <col style="width: 20%;">
+          <col style="width: 20%;">
+          <col style="width: 20%;">
+          <col style="width: 20%;">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>
+                <select [(ngModel)]="selectedDay" (ngModelChange)="onDayChanged()">
+                    <option *ngFor="let day of days">{{day}}</option>
+                </select>
+            </th>
+            <th>
+                <select [(ngModel)]="selectedMonth" (ngModelChange)="onMonthChanged()">
+                  <option *ngFor="let month of months">{{month}}</option>
+                </select>
+            </th>
+            <th>
+                <select [(ngModel)]="selectedYear" (ngModelChange)="onYearChanged()">
+                  <option *ngFor="let year of years">{{year}}</option>
+                </select>
+            </th>
+            <th>All</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let category of categories; let i = index"
+              [ngClass]="{'income-row' : category.type === EntryType.INCOME, 'expense-row': category.type === EntryType.EXPENSE}">
+            <td>{{category.name}}</td>
+            <td>{{getSumsByCategoryUUID(category.uuid)[0] | currency:'EUR'}}</td>
+            <td>{{getSumsByCategoryUUID(category.uuid)[1] | currency:'EUR'}}</td>
+            <td>{{getSumsByCategoryUUID(category.uuid)[2] | currency:'EUR'}}</td>
+            <td>{{getSumsByCategoryUUID(category.uuid)[3] | currency:'EUR'}}</td>
+          </tr>
+          <tr class="total-row">
+            <td>Total</td>
+            <td>{{getTotalSums()[0] | currency:'EUR'}}</td>
+            <td>{{getTotalSums()[1] | currency:'EUR'}}</td>
+            <td>{{getTotalSums()[2] | currency:'EUR'}}</td>
+            <td>{{getTotalSums()[3] | currency:'EUR'}}</td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+</div>
