@@ -1,0 +1,14 @@
+<div class="login-container">
+  <form class="login-form" (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm">
+    <img ngSrc="./assets/img/logo.png" priority alt="Logo" class="logo" height="292" width="563">
+    <div class="input-group">
+      <label for="username">E-mail</label>
+      <input type="email" id="username" name="username" ngModel required>
+    </div>
+    <div class="input-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" ngModel required>
+    </div>
+    <button type="submit" [disabled]="!loginForm.valid">Login</button>
+  </form>
+</div>
