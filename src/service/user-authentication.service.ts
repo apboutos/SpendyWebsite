@@ -1,7 +1,11 @@
 import {Environment} from "../environment";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {UserAuthenticationResponse} from "../model/authenitcation-response";
+import {Injectable} from "@angular/core";
 
+@Injectable({
+  providedIn: 'root'
+})
 export class UserAuthenticationService {
 
   private AUTHENTICATE_USER_URL =`${Environment.SPENDY_API_PRODUCTION_URL}/api/v1/users/authenticate`;

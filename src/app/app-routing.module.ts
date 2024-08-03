@@ -2,15 +2,15 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {LoginComponent} from "../component/login/login.component";
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
-  }/*,
-  {
+  },
+/*  {
     path: 'ledger',
     component: LedgerComponent
-  },
+  },*/
   {
     path: '',
     redirectTo: 'login',
@@ -19,7 +19,7 @@ const routes: Routes = [
   {
     path: '**',
     component:LoginComponent
-  }*/
+  }
 ];
 
 @NgModule({

@@ -1,10 +1,14 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {NgModule, provideZoneChangeDetection} from '@angular/core';
+import {BrowserModule, provideClientHydration} from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
+import {AppRoutingModule, routes} from './app-routing.module';
 import { AppComponent } from './app.component';
 import {FormsModule} from "@angular/forms";
 import {LoginModule} from "../component/login/login.module";
+import {provideHttpClient, withFetch, withInterceptorsFromDi} from "@angular/common/http";
+import {provideRouter} from "@angular/router";
+import {provideAnimations} from "@angular/platform-browser/animations";
+import {provideAnimationsAsync} from "@angular/platform-browser/animations/async";
 
 @NgModule({
   declarations: [
@@ -16,7 +20,13 @@ import {LoginModule} from "../component/login/login.module";
     FormsModule,
     LoginModule
   ],
-  providers: [],
+  providers: [
+    provideRouter(routes),
+    provideClientHydration(),
+    provideAnimations(),
+    provideAnimationsAsync(),
+    provideHttpClient(withInterceptorsFromDi(), withFetch())
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
