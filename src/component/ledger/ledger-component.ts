@@ -227,6 +227,8 @@ export class LedgerComponent implements OnInit, OnDestroy {
                   false
                 ));
                 this.entryService.publishEntries(this.entries);
+                this.newEntry.description = "";
+                this.newEntry.price = 0;
               }
             }
         },
