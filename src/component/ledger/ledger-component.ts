@@ -206,7 +206,7 @@ export class LedgerComponent implements OnInit, OnDestroy {
         this.newEntry.category,
         this.newEntry.description,
         this.newEntry.price,
-        new Date(),
+        this.selectedDate,
         new Date(),
         false,
         false
