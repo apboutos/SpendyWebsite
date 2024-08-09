@@ -1,4 +1,3 @@
-
 import {Entry} from "../../model/Entry";
 
 import {ModalService} from "../../service/modal.service";
@@ -11,8 +10,7 @@ import {HttpStatusCode} from "@angular/common/http";
 import {Type} from "../../enums/Type";
 import {v4 as uuid} from "uuid";
 import {Component, OnDestroy, OnInit} from "@angular/core";
-import { DisplayAggregatesModalComponent } from "./display-aggregates-modal/display-aggregates-modal.component";
-import * as Highcharts from 'highcharts';
+import {DisplayAggregatesModalComponent} from "./display-aggregates-modal/display-aggregates-modal.component";
 import {EntryService} from "../../service/entry-service";
 
 @Component({
@@ -29,6 +27,8 @@ export class LedgerComponent implements OnInit, OnDestroy {
   entryTypes = Object.values(Type);
   categories: Category[] = [];
   incomeCategories: Category[] = [];
+  investmentCategories: Category[] = [];
+  savingCategories: Category[] = [];
   expenseCategories: Category[] = [];
   editEntryFilteredCategories: Category[] = [];
   newEntryFilteredCategories: Category[] = [];
@@ -70,6 +70,8 @@ export class LedgerComponent implements OnInit, OnDestroy {
         this.categories = categories;
         this.incomeCategories = categories.filter(c => c.type === Type.INCOME);
         this.expenseCategories = categories.filter(c => c.type === Type.EXPENSE);
+        this.incomeCategories = categories.filter(c => c.type === Type.INVESTMENT);
+        this.savingCategories = categories.filter(c => c.type === Type.SAVING);
         this.newEntryFilteredCategories = this.expenseCategories;
       }
     });
@@ -178,24 +180,21 @@ export class LedgerComponent implements OnInit, OnDestroy {
   }
 
   onEntryTypeChange() {
-    if (this.newEntry.type === Type.INCOME) {
-      this.newEntryFilteredCategories = this.incomeCategories;
-    }
-    else if (this.newEntry.type === Type.EXPENSE) {
-      this.newEntryFilteredCategories = this.expenseCategories;
-    }
-    else {
-      this.newEntryFilteredCategories = [];
+
+    switch (this.newEntry.type) {
+      case Type.INCOME: this.newEntryFilteredCategories = this.incomeCategories; break;
+      case Type.EXPENSE: this.newEntryFilteredCategories = this.expenseCategories; break;
+      case Type.INVESTMENT: this.newEntryFilteredCategories = this.investmentCategories; break;
+      case Type.SAVING: this.newEntryFilteredCategories = this.savingCategories; break;
+      default: this.newEntryFilteredCategories = [];
     }
 
-    if (this.editedEntry.type === Type.INCOME) {
-      this.editEntryFilteredCategories = this.incomeCategories;
-    }
-    else if (this.editedEntry.type === Type.EXPENSE) {
-      this.editEntryFilteredCategories = this.expenseCategories;
-    }
-    else {
-      this.editEntryFilteredCategories = [];
+    switch (this.editedEntry.type) {
+      case Type.INCOME: this.editEntryFilteredCategories = this.incomeCategories; break;
+      case Type.EXPENSE: this.editEntryFilteredCategories = this.expenseCategories; break;
+      case Type.INVESTMENT: this.editEntryFilteredCategories = this.investmentCategories; break;
+      case Type.SAVING: this.editEntryFilteredCategories = this.savingCategories; break;
+      default: this.editEntryFilteredCategories = [];
     }
   }
 
