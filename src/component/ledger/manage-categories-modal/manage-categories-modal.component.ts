@@ -3,7 +3,7 @@ import {ModalService} from "../../../service/modal.service";
 import {Category} from "../../../model/Category";
 import {CategoryService} from "../../../service/category-service";
 import {v4 as uuid} from "uuid";
-import {EntryType} from "../../../enums/EntryType";
+import {Type} from "../../../enums/Type";
 import {Router} from "@angular/router";
 import {EntryService} from "../../../service/entry-service";
 import {HttpStatusCode} from "@angular/common/http";
@@ -27,7 +27,7 @@ export class ManageCategoriesModalComponent implements OnInit, OnDestroy {
   categories: Category[] = [];
   newCategory: Category = Category.emptyCategory();
   editedCategory: Category = Category.emptyCategory();
-  categoryTypes = Object.values(EntryType);
+  categoryTypes = Object.values(Type);
 
   private addCategorySubscription = new Subscription();
   private deleteCategorySubscription = new Subscription();

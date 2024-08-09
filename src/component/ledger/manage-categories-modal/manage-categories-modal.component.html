@@ -26,7 +26,7 @@
           </colgroup>
           <tbody>
           <tr *ngFor="let category of categories; let i = index"
-              [ngClass]="{'income-row': category.type === 'Income', 'expense-row': category.type === 'Expense'}">
+              [ngClass]="{'income-row': category.type === 'Income', 'expense-row': category.type === 'Expense', 'saving-row': category.type === 'Saving', 'investment-row': category.type === 'Investment'}">
             <td>
               <span type="text" [hidden]="category.isBeingEdited">{{category.type}}</span>
               <select type="text" [(ngModel)]="editedCategory.type" [hidden]="!category.isBeingEdited">

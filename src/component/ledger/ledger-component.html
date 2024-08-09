@@ -53,7 +53,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let entry of entries; let i = index" [ngClass]="{'expense-row': entry.type === EntryType.EXPENSE, 'income-row': entry.type === EntryType.INCOME}">
+        <tr *ngFor="let entry of entries; let i = index" [ngClass]="{'expense-row': entry.type === Type.EXPENSE, 'income-row': entry.type === Type.INCOME,  'saving-row': entry.type === Type.SAVING, 'investment-row': entry.type === Type.INVESTMENT}">
           <td>
               <span *ngIf="!entry.isBeingEdited">{{ entry.type }}</span>
               <select id="income" *ngIf="entry.isBeingEdited" type="text" [(ngModel)]="editedEntry.type" (change)="onEntryTypeChange()">

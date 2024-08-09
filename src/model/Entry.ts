@@ -1,8 +1,8 @@
-import {EntryType} from "../enums/EntryType";
+import {Type} from "../enums/Type";
 
 export class Entry {
     constructor(public uuid: string,
-                public type: EntryType,
+                public type: Type,
                 public category: string,
                 public description: string,
                 public price: number,
@@ -16,7 +16,7 @@ export class Entry {
     public static emptyEntry() {
       return new Entry(
         '',
-        EntryType.EXPENSE,
+        Type.EXPENSE,
         '',
         '',
         0,

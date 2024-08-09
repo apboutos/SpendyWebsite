@@ -111,6 +111,14 @@ tr {
   background-color: #ffe6e6; /* Light red */
 }
 
+.saving-row {
+  background-color: #4d92e8; /* Light blue */
+}
+
+.investment-row {
+  background-color: #eae362; /* Light yellow */
+}
+
 /* Input and select styles */
 input[type="text"], select {
   width: 100%;

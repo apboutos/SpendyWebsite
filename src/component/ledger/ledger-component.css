@@ -23,6 +23,14 @@ th {
   background-color: #d3f3db; /* Dark green */
 }
 
+.saving-row {
+  background-color: #4d92e8; /* Light blue */
+}
+
+.investment-row {
+  background-color: #eae362; /* Light yellow */
+}
+
 #income {
   width: 100px;
 }

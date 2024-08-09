@@ -8,7 +8,7 @@ import {CategoryService} from "../../service/category-service";
 import {Category} from "../../model/Category";
 import {Subscription} from "rxjs";
 import {HttpStatusCode} from "@angular/common/http";
-import {EntryType} from "../../enums/EntryType";
+import {Type} from "../../enums/Type";
 import {v4 as uuid} from "uuid";
 import {Component, OnDestroy, OnInit} from "@angular/core";
 import { DisplayAggregatesModalComponent } from "./display-aggregates-modal/display-aggregates-modal.component";
@@ -22,11 +22,11 @@ import {EntryService} from "../../service/entry-service";
 })
 export class LedgerComponent implements OnInit, OnDestroy {
 
-  protected readonly EntryType = EntryType;
+  protected readonly Type = Type;
   entries: Entry[] = [];
   newEntry: Entry = Entry.emptyEntry();
   editedEntry: Entry = Entry.emptyEntry();
-  entryTypes = Object.values(EntryType);
+  entryTypes = Object.values(Type);
   categories: Category[] = [];
   incomeCategories: Category[] = [];
   expenseCategories: Category[] = [];
@@ -68,8 +68,8 @@ export class LedgerComponent implements OnInit, OnDestroy {
     this.categoriesSubjectSubscription = this.categoryService.getSubject().subscribe({
       next: categories => {
         this.categories = categories;
-        this.incomeCategories = categories.filter(c => c.type === EntryType.INCOME);
-        this.expenseCategories = categories.filter(c => c.type === EntryType.EXPENSE);
+        this.incomeCategories = categories.filter(c => c.type === Type.INCOME);
+        this.expenseCategories = categories.filter(c => c.type === Type.EXPENSE);
         this.newEntryFilteredCategories = this.expenseCategories;
       }
     });
@@ -178,20 +178,20 @@ export class LedgerComponent implements OnInit, OnDestroy {
   }
 
   onEntryTypeChange() {
-    if (this.newEntry.type === EntryType.INCOME) {
+    if (this.newEntry.type === Type.INCOME) {
       this.newEntryFilteredCategories = this.incomeCategories;
     }
-    else if (this.newEntry.type === EntryType.EXPENSE) {
+    else if (this.newEntry.type === Type.EXPENSE) {
       this.newEntryFilteredCategories = this.expenseCategories;
     }
     else {
       this.newEntryFilteredCategories = [];
     }
 
-    if (this.editedEntry.type === EntryType.INCOME) {
+    if (this.editedEntry.type === Type.INCOME) {
       this.editEntryFilteredCategories = this.incomeCategories;
     }
-    else if (this.editedEntry.type === EntryType.EXPENSE) {
+    else if (this.editedEntry.type === Type.EXPENSE) {
       this.editEntryFilteredCategories = this.expenseCategories;
     }
     else {
@@ -325,6 +325,7 @@ export class LedgerComponent implements OnInit, OnDestroy {
   cancelEntryEdit(index: number) {
     this.entries[index].isBeingEdited = false;
   }
+
 
 }
 

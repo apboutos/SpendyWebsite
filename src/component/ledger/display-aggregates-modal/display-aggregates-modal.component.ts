@@ -4,7 +4,7 @@ import {CategoryService} from "../../../service/category-service";
 import {ModalService} from "../../../service/modal.service";
 import {Subscription} from "rxjs";
 import {Category} from "../../../model/Category";
-import {EntryType} from "../../../enums/EntryType";
+import {Type} from "../../../enums/Type";
 import {HttpStatusCode} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {DateHelper} from "../../../util/date-helper";
@@ -47,8 +47,8 @@ export class DisplayAggregatesModalComponent implements OnInit, OnDestroy {
       this.getCategoriesSubscription = this.categoryService.getSubject().subscribe({
         next: categories => {
           this.categories = categories;
-          this.incomeCategories = categories.filter(category => category.type === EntryType.INCOME);
-          this.expenseCategories = categories.filter(category => category.type === EntryType.EXPENSE);
+          this.incomeCategories = categories.filter(category => category.type === Type.INCOME);
+          this.expenseCategories = categories.filter(category => category.type === Type.EXPENSE);
           this.initializeAggregates();
         }
       });
@@ -159,5 +159,5 @@ export class DisplayAggregatesModalComponent implements OnInit, OnDestroy {
 
 
 
-  protected readonly EntryType = EntryType;
+  protected readonly EntryType = Type;
 }
