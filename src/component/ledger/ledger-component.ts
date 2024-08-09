@@ -142,7 +142,7 @@ export class LedgerComponent implements OnInit, OnDestroy {
                   entry.type,
                   entry.category,
                   entry.description,
-                  entry.price,
+                  entry.price / 100,
                   entry.date,
                   entry.lastUpdate,
                   entry.isDeleted,
