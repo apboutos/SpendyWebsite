@@ -70,7 +70,7 @@ export class LedgerComponent implements OnInit, OnDestroy {
         this.categories = categories;
         this.incomeCategories = categories.filter(c => c.type === Type.INCOME);
         this.expenseCategories = categories.filter(c => c.type === Type.EXPENSE);
-        this.incomeCategories = categories.filter(c => c.type === Type.INVESTMENT);
+        this.investmentCategories = categories.filter(c => c.type === Type.INVESTMENT);
         this.savingCategories = categories.filter(c => c.type === Type.SAVING);
         this.newEntryFilteredCategories = this.expenseCategories;
       }
