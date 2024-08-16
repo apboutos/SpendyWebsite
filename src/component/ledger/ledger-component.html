@@ -1,4 +1,8 @@
 <div class="date-picker-container">
+  <div class="manage-categories-container">
+    <button mat-raised-button color="primary" (click)="onManageCategoriesClick()">Manage Categories</button>
+    <manage-categories-modal></manage-categories-modal>
+  </div>
   <button class="change-date-button" (click)="onPreviousDayButtonClick()"><</button>
   <div class="mat-datepicker-content">
     <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" (dateChange)="onNewDateSelected()">
@@ -6,34 +10,16 @@
     <mat-datepicker #picker></mat-datepicker>
   </div>
   <button class="change-date-button" (click)="onNextDayButtonClick()">></button>
+  <div class="display-aggregates-container">
+    <button mat-raised-button color="primary" (click)="onDisplaySummaryClick()">Summary</button>
+    <display-aggregates-modal></display-aggregates-modal>
+  </div>
 </div>
 <div class="chart-table-container">
   <div class="pie-chart-container">
     <pie-chart></pie-chart>
   </div>
   <div class="table-container">
-      <div class="add-entry-toolbar">
-        <span class="add-entry-toolbar-label">Type</span>
-        <select [(ngModel)]="newEntry.type" (change)="onEntryTypeChange()">
-          <option *ngFor="let type of entryTypes" [value]="type">{{ type }}</option>
-        </select>
-        <span class="add-entry-toolbar-label">Category</span>
-        <select [(ngModel)]="newEntry.category">
-          <option *ngFor="let category of newEntryFilteredCategories" [value]="category.uuid">{{ category.name }}</option>
-        </select>
-        <input type="text" placeholder="Description" [(ngModel)]="newEntry.description">
-        <span class="add-entry-toolbar-label">Price</span>
-        <input type="number" placeholder="Price" [(ngModel)]="newEntry.price">
-        <img (click)="addEntry()" ngSrc="assets/button/icons8-add-64.png" alt="cancel" class="icon-button" height="64" width="64">
-        <div class="manage-categories-container">
-          <button mat-raised-button color="primary" (click)="onManageCategoriesClick()">Manage Categories</button>
-          <manage-categories-modal></manage-categories-modal>
-        </div>
-        <div class="display-aggregates-container">
-          <button mat-raised-button color="primary" (click)="onDisplaySummaryClick()">Summary</button>
-          <display-aggregates-modal></display-aggregates-modal>
-        </div>
-      </div>
       <table>
         <title>Entries</title>
         <colgroup>
@@ -92,6 +78,20 @@
         </tr>
         </tbody>
       </table>
+      <div class="add-entry-toolbar">
+        <span class="add-entry-toolbar-label">Type</span>
+        <select [(ngModel)]="newEntry.type" (change)="onEntryTypeChange()">
+          <option *ngFor="let type of entryTypes" [value]="type">{{ type }}</option>
+        </select>
+        <span class="add-entry-toolbar-label">Category</span>
+        <select [(ngModel)]="newEntry.category">
+          <option *ngFor="let category of newEntryFilteredCategories" [value]="category.uuid">{{ category.name }}</option>
+        </select>
+        <input type="text" placeholder="Description" [(ngModel)]="newEntry.description">
+        <span class="add-entry-toolbar-label">Price</span>
+        <input type="number" placeholder="Price" [(ngModel)]="newEntry.price">
+        <img (click)="addEntry()" ngSrc="assets/button/icons8-add-64.png" alt="cancel" class="icon-button" height="64" width="64">
+      </div>
   </div>
   <div class="bar-chart-container">
     <bar-chart></bar-chart>
