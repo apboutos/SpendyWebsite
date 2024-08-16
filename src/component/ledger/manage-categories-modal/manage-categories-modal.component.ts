@@ -8,6 +8,7 @@ import {Router} from "@angular/router";
 import {EntryService} from "../../../service/entry-service";
 import {HttpStatusCode} from "@angular/common/http";
 import {Subscription} from "rxjs";
+import {TypeOrder} from "../../../enums/TypeOrder";
 
 @Component({
   selector: 'manage-categories-modal',
@@ -45,7 +46,10 @@ export class ManageCategoriesModalComponent implements OnInit, OnDestroy {
      next: value => {this.isVisible = value}
    });
    this.categoryService.getSubject().subscribe({
-     next: categories => {this.categories = categories}
+     next: categories => {
+       this.categories = categories
+       this.categories.sort((a, b) => TypeOrder[a.type.valueOf()] - TypeOrder[b.type.valueOf()]);
+     }
    });
   }
 

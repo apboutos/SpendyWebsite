@@ -3,4 +3,5 @@ export enum Type {
   EXPENSE = "Expense",
   INVESTMENT = "Investment",
   SAVING = "Saving"
+
 }

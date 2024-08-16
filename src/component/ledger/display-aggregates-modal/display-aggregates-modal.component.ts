@@ -8,6 +8,7 @@ import {Type} from "../../../enums/Type";
 import {HttpStatusCode} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {DateHelper} from "../../../util/date-helper";
+import {TypeOrder} from "../../../enums/TypeOrder";
 
 @Component({
   selector: 'display-aggregates-modal',
@@ -20,12 +21,14 @@ export class DisplayAggregatesModalComponent implements OnInit, OnDestroy {
   categories: Category[] = [];
   incomeCategories: Category[] = [];
   expenseCategories: Category[] = [];
+  investmentCategories: Category[] = [];
+  savingCategories: Category[] = [];
   days: number[] = [];
   months: string[] = [];
   years: number[] = [];
   selectedDay: number = new Date().getDay();
   selectedMonth: string = DateHelper.getMonthName(new Date().getMonth());
-  previousSelectedMonth: string = DateHelper.getMonthName(new Date().getMonth());
+  previousSelectedMonth: string = '';
   selectedYear: number = new Date().getFullYear();
   aggregatesMap: Map<string, number[]> = new Map();
 
@@ -33,6 +36,7 @@ export class DisplayAggregatesModalComponent implements OnInit, OnDestroy {
   private modalVisibilitySubscription: Subscription | undefined;
   private getCategoriesSubscription: Subscription | undefined;
   private getEntryAggregatesSubscription: Subscription | undefined;
+  protected readonly Type = Type;
 
   constructor(private modalService: ModalService,
               private entryService: EntryService,
@@ -47,8 +51,11 @@ export class DisplayAggregatesModalComponent implements OnInit, OnDestroy {
       this.getCategoriesSubscription = this.categoryService.getSubject().subscribe({
         next: categories => {
           this.categories = categories;
+          this.categories.sort((a, b) => TypeOrder[a.type.valueOf()] - TypeOrder[b.type.valueOf()]);
           this.incomeCategories = categories.filter(category => category.type === Type.INCOME);
           this.expenseCategories = categories.filter(category => category.type === Type.EXPENSE);
+          this.investmentCategories = categories.filter(category => category.type === Type.INVESTMENT);
+          this.savingCategories = categories.filter(category => category.type === Type.SAVING);
           this.initializeAggregates();
         }
       });
@@ -73,6 +80,8 @@ export class DisplayAggregatesModalComponent implements OnInit, OnDestroy {
       const selectedDate = new Date();
       selectedDate.setFullYear(this.selectedYear, DateHelper.getMonthNumber(this.selectedMonth), this.selectedDay);
 
+      console.log("Getting aggregates for " + selectedDate.toString());
+
       this.getEntryAggregatesSubscription = this.entryService.getEntryAggregatesByCategoryAndDate(this.categories, selectedDate).subscribe({
         next: (response: any) => {
           if (response.status == HttpStatusCode.Ok.valueOf()) {
@@ -84,6 +93,7 @@ export class DisplayAggregatesModalComponent implements OnInit, OnDestroy {
               }
             }
             this.aggregatesMap = map;
+            console.log(map);
           }
           else {
             alert(response.message);
@@ -130,6 +140,26 @@ export class DisplayAggregatesModalComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.investmentCategories.forEach(category => {
+      const sumsOfCategory = this.aggregatesMap.get(category.uuid);
+      if (sumsOfCategory !== undefined) {
+        totalSums[0] -= sumsOfCategory[0];
+        totalSums[1] -= sumsOfCategory[1];
+        totalSums[2] -= sumsOfCategory[2];
+        totalSums[3] -= sumsOfCategory[3];
+      }
+    });
+
+    this.savingCategories.forEach(category => {
+      const sumsOfCategory = this.aggregatesMap.get(category.uuid);
+      if (sumsOfCategory !== undefined) {
+        totalSums[0] -= sumsOfCategory[0];
+        totalSums[1] -= sumsOfCategory[1];
+        totalSums[2] -= sumsOfCategory[2];
+        totalSums[3] -= sumsOfCategory[3];
+      }
+    });
+
     return totalSums;
   }
 
@@ -138,26 +168,23 @@ export class DisplayAggregatesModalComponent implements OnInit, OnDestroy {
   }
 
   onMonthChanged() {
-    //TODO This does not work!
+    /*//TODO This does not work!
     this.days = DateHelper.getDaysOfMonthAndYear(this.selectedMonth, this.selectedYear);
     const lastDayOfSelectedMonth = DateHelper.getLastDayOfMonth(this.selectedMonth, this.selectedYear);
     const lastDayOfPreviouslySelectedMonth = DateHelper.getLastDayOfMonth(this.previousSelectedMonth, this.selectedYear);
     if (this.selectedDay !== lastDayOfSelectedMonth && this.selectedDay === lastDayOfPreviouslySelectedMonth) {
       this.selectedDay = lastDayOfSelectedMonth;
     }
-    this.previousSelectedMonth = this.selectedMonth;
+    this.previousSelectedMonth = this.selectedMonth;*/
+    this.days = DateHelper.getDaysOfMonthAndYear(this.selectedMonth, this.selectedYear);
+    this.selectedDay = 1;
     this.initializeAggregates();
   }
 
   onYearChanged() {
     this.days = DateHelper.getDaysOfMonthAndYear(this.selectedMonth, this.selectedYear);
-    if (!DateHelper.isLeapYear(this.selectedYear) && this.selectedMonth === 'February' && this.selectedDay === 29) {
-      this.selectedDay = 28;
-    }
+    this.selectedDay = 1;
+    this.selectedMonth = 'January'
     this.initializeAggregates();
   }
-
-
-
-  protected readonly EntryType = Type;
 }

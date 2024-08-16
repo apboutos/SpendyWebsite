@@ -14,9 +14,9 @@
 /* Modal content */
 .modal-content {
   background-color: #fff;
-  padding: 20px;
+  padding: 20px 20px 30px 20px;
   border-radius: 8px;
-  width: 800px; /* Set modal width to 800px */
+  width: 700px; /* Set modal width to 800px */
   height: 800px;
   max-width: 100%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -39,6 +39,12 @@
   color: #000;
 }
 
+.table-body-container {
+  max-height: 800px; /* Set the maximum height you want */
+  height: 800px;
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
 /* Table styles */
 table {
   width: 100%;
@@ -48,26 +54,41 @@ table {
 
 colgroup col {
   width: auto;
+  /*border-left: 1px solid #ddd;*/
 }
 
 tr {
-  height: 60px; /* Set a fixed height for table rows */
+  height: 60px;
 }
 
 th {
   text-align: center;
   padding: 15px 12px;
-  border-bottom: 1px solid #ddd;
   top: 0;
   z-index: 2;
   position: sticky;
   background-color: #f4f4f4;
+  border-right: 1px solid #ddd;
+}
+
+.button-row {
+  position: sticky;
+  top: 60px;
+  z-index: 2;
+}
+
+.total-row {
+  position: sticky;
+  top: 120px;
+  z-index: 2;
+  background-color: #dcdada;
 }
 
 td {
   text-align: center;
   padding: 15px 12px; /* Increase padding to make rows taller */
   border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
 }
 
 .income-row {
@@ -78,6 +99,12 @@ td {
   background-color: #ffe6e6; /* Light red */
 }
 
-.total-row {
-  background-color: #f1f1f1;
+.saving-row {
+  background-color: #b0cef3; /* Light blue */
 }
+
+.investment-row {
+  background-color: #edebb1; /* Light yellow */
+}
+
+
