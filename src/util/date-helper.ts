@@ -88,4 +88,18 @@ export class DateHelper {
     }
     return array;
   }
+
+  public static getTimezoneOffsetAsURLString(): string {
+    const offsetInMinutes = new Date().getTimezoneOffset();
+    if (offsetInMinutes === 0) {
+      return 'Z'; // UTC timezone
+    }
+
+    const offsetHours = Math.floor(Math.abs(offsetInMinutes) / 60);
+    const offsetMinutes = Math.abs(offsetInMinutes) % 60;
+    const sign = offsetInMinutes <= 0 ? '%2B' : '%2D';
+
+    // Format as ±hh:mm
+    return `${sign}${String(offsetHours).padStart(2, '0')}:${String(offsetMinutes).padStart(2, '0')}`;
+  }
 }

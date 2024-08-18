@@ -1,54 +1,60 @@
 <div *ngIf="isVisible" class="modal">
   <div class="modal-content">
     <span class="close-modal" (click)="closeModal()">&times;</span>
+      <label>Year:</label>
+      <select [(ngModel)]="selectedYear" (ngModelChange)="onYearChanged()">
+        <option *ngFor="let year of yearsWithEntries">{{year}}</option>
+      </select>
       <table>
-
         <div class="table-body-container">
             <colgroup>
-              <col style="width: 25%;">
-              <col style="width: 25%;">
-              <col style="width: 25%;">
-              <col style="width: 25%;">
+              <col style="width: 7%;">
+              <col style="width: 7%;">
+              <col style="width: 7%;">
+              <col style="width: 7%;">
+              <col style="width: 7%;">
+              <col style="width: 7%;">
+              <col style="width: 7%;">
+              <col style="width: 7%;">
+              <col style="width: 7%;">
+              <col style="width: 7%;">
+              <col style="width: 7%;">
+              <col style="width: 7%;">
+              <col style="width: 7%;">
             </colgroup>
             <thead>
                 <tr>
                   <th>Category</th>
-                  <th>Day</th>
-                  <th>Month</th>
-                  <th>Year</th>
-                </tr>
-                <tr class="button-row">
-                  <th></th>
-                  <th>
-                    <select [(ngModel)]="selectedDay" (ngModelChange)="onDayChanged()">
-                      <option *ngFor="let day of days">{{day}}</option>
-                    </select>
-                  </th>
-                  <th>
-                    <select [(ngModel)]="selectedMonth" (ngModelChange)="onMonthChanged()">
-                      <option *ngFor="let month of months">{{month}}</option>
-                    </select>
-                  </th>
-                  <th>
-                    <select [(ngModel)]="selectedYear" (ngModelChange)="onYearChanged()">
-                      <option *ngFor="let year of years">{{year}}</option>
-                    </select>
-                  </th>
+                  <th>January</th>
+                  <th>February</th>
+                  <th>March</th>
+                  <th>April</th>
+                  <th>May</th>
+                  <th>June</th>
+                  <th>July</th>
+                  <th>August</th>
+                  <th>September</th>
+                  <th>October</th>
+                  <th>November</th>
+                  <th>December</th>
                 </tr>
             </thead>
             <tbody>
-                <tr class="total-row">
-                  <td>Total</td>
-                  <td>{{getTotalSums()[0] | currency:'EUR'}}</td>
-                  <td>{{getTotalSums()[1] | currency:'EUR'}}</td>
-                  <td>{{getTotalSums()[2] | currency:'EUR'}}</td>
-                </tr>
                 <tr *ngFor="let category of categories"
                     [ngClass]="{'income-row': category.type === Type.INCOME, 'expense-row': category.type === Type.EXPENSE, 'saving-row': category.type === Type.SAVING, 'investment-row': category.type === Type.INVESTMENT}">
                   <td>{{category.name}}</td>
-                  <td>{{getSumsByCategoryUUID(category.uuid)[0] | currency:'EUR'}}</td>
-                  <td>{{getSumsByCategoryUUID(category.uuid)[1] | currency:'EUR'}}</td>
-                  <td>{{getSumsByCategoryUUID(category.uuid)[2] | currency:'EUR'}}</td>
+                  <td>{{getSumByCategoryUUIDAndMonth(category.uuid, 0) | currency:'EUR'}}</td>
+                  <td>{{getSumByCategoryUUIDAndMonth(category.uuid, 1) | currency:'EUR'}}</td>
+                  <td>{{getSumByCategoryUUIDAndMonth(category.uuid, 2) | currency:'EUR'}}</td>
+                  <td>{{getSumByCategoryUUIDAndMonth(category.uuid, 3) | currency:'EUR'}}</td>
+                  <td>{{getSumByCategoryUUIDAndMonth(category.uuid, 4) | currency:'EUR'}}</td>
+                  <td>{{getSumByCategoryUUIDAndMonth(category.uuid, 5) | currency:'EUR'}}</td>
+                  <td>{{getSumByCategoryUUIDAndMonth(category.uuid, 6) | currency:'EUR'}}</td>
+                  <td>{{getSumByCategoryUUIDAndMonth(category.uuid, 7) | currency:'EUR'}}</td>
+                  <td>{{getSumByCategoryUUIDAndMonth(category.uuid, 8) | currency:'EUR'}}</td>
+                  <td>{{getSumByCategoryUUIDAndMonth(category.uuid, 9) | currency:'EUR'}}</td>
+                  <td>{{getSumByCategoryUUIDAndMonth(category.uuid, 10) | currency:'EUR'}}</td>
+                  <td>{{getSumByCategoryUUIDAndMonth(category.uuid, 11) | currency:'EUR'}}</td>
                 </tr>
           </tbody>
         </div>

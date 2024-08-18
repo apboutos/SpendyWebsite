@@ -4,6 +4,7 @@ import {BehaviorSubject, Observable} from "rxjs";
 import {Environment} from "../environment";
 import {Entry} from "../model/Entry";
 import {Category} from "../model/Category";
+import {DateHelper} from "../util/date-helper";
 
 
 @Injectable({
@@ -95,6 +96,15 @@ export class EntryService {
 
     return this.httpClient.get(`${this.ENTRIES_URL}/aggregates/by-category?categories=${urlCategories}&startingDate=${startingDate.toISOString()}&endingDate=${endingDate.toISOString()}`,
       {headers, observe: 'response'})
+  }
+
+  public getPriceSumsByCategoryYearAndMonth(categories: Category[], year: string, months: string[]) {
+    const headers = this.getAuthenticationHeaders();
+    const urlCategories = categories.map(c => c.uuid).join(',');
+    const monthsString = months.join(',');
+    const timezoneOffset = DateHelper.getTimezoneOffsetAsURLString();
+
+    return this.httpClient.get(`${this.ENTRIES_URL}/aggregates/by-category-year-months?categories=${urlCategories}&year=${year}&months=${monthsString}&timezoneOffset=${timezoneOffset}`, {headers, observe: 'response'});
   }
 
   private getAuthenticationHeaders(): HttpHeaders {
