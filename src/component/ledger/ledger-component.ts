@@ -54,7 +54,9 @@ export class LedgerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.endOfSelectedDate.setDate(this.startOfSelectedDate.getDate() + 1);
+    this.startOfSelectedDate.setHours(0, 0, 0, 0);
+    this.endOfSelectedDate = new Date(this.startOfSelectedDate.valueOf());
+    this.endOfSelectedDate.setHours(23, 59, 59);
 
     this.categoriesSubjectSubscription = this.categoryService.getSubject().subscribe({
       next: categories => {
