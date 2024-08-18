@@ -12,6 +12,7 @@ import {v4 as uuid} from "uuid";
 import {Component, OnDestroy, OnInit} from "@angular/core";
 import {DisplayAggregatesModalComponent} from "./display-aggregates-modal/display-aggregates-modal.component";
 import {EntryService} from "../../service/entry-service";
+import {TypeOrder} from "../../enums/TypeOrder";
 
 @Component({
   selector: 'ledger',
@@ -33,17 +34,12 @@ export class LedgerComponent implements OnInit, OnDestroy {
   editEntryFilteredCategories: Category[] = [];
   newEntryFilteredCategories: Category[] = [];
 
-  selectedDate: Date = new Date();
-  selectedDateString: string = '';
+  startOfSelectedDate: Date = new Date();
+  endOfSelectedDate: Date = new Date();
 
   //Subscriptions
   private categoriesSubjectSubscription = new Subscription();
   private entriesSubjectSubscription = new Subscription();
-  private getAllCategoriesSubscription = new Subscription();
-  private getAllEntriesSubscription = new Subscription();
-  private createEntrySubscription = new Subscription();
-  private deleteEntrySubscription = new Subscription();
-  private updateEntrySubscription = new Subscription();
 
   constructor(private entryService: EntryService,
               private categoryService: CategoryService,
@@ -52,18 +48,13 @@ export class LedgerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-        this.getAllCategoriesSubscription.unsubscribe();
-        this.getAllEntriesSubscription.unsubscribe();
         this.categoriesSubjectSubscription.unsubscribe();
         this.entriesSubjectSubscription.unsubscribe();
-        this.createEntrySubscription.unsubscribe();
-        this.deleteEntrySubscription.unsubscribe();
-        this.updateEntrySubscription.unsubscribe();
-    }
-
-
+  }
 
   ngOnInit(): void {
+
+    this.endOfSelectedDate.setDate(this.startOfSelectedDate.getDate() + 1);
 
     this.categoriesSubjectSubscription = this.categoryService.getSubject().subscribe({
       next: categories => {
@@ -76,25 +67,33 @@ export class LedgerComponent implements OnInit, OnDestroy {
       }
     });
     this.entriesSubjectSubscription = this.entryService.getSubject().subscribe({
-      next: entries => {this.entries = entries}
+      next: entries => {
+        this.entries = entries
+        this.entries.sort((a, b) => TypeOrder[a.type.valueOf()] - TypeOrder[b.type.valueOf()]);
+      }
     });
     this.initialiseCategories();
     this.initialiseEntries();
 
-    this.selectedDateString = this.formatDate(new Date());
   }
 
   onNewDateSelected() {
+    this.endOfSelectedDate = new Date(this.startOfSelectedDate.valueOf());
+    this.endOfSelectedDate.setHours(23, 59, 59);
     this.initialiseEntries();
   }
 
   onPreviousDayButtonClick() {
-    this.selectedDate = new Date(this.selectedDate.setDate(this.selectedDate.getDate() - 1).valueOf());
+    this.startOfSelectedDate = new Date(this.startOfSelectedDate.setDate(this.startOfSelectedDate.getDate() - 1).valueOf());
+    this.endOfSelectedDate = new Date(this.startOfSelectedDate.valueOf());
+    this.endOfSelectedDate.setHours(23, 59, 59);
     this.initialiseEntries();
   }
 
   onNextDayButtonClick() {
-    this.selectedDate = new Date(this.selectedDate.setDate(this.selectedDate.getDate() + 1).valueOf());
+    this.startOfSelectedDate = new Date(this.startOfSelectedDate.setDate(this.startOfSelectedDate.getDate() + 1).valueOf());
+    this.endOfSelectedDate = new Date(this.startOfSelectedDate.valueOf());
+    this.endOfSelectedDate.setHours(23, 59, 59);
     this.initialiseEntries();
   }
 
@@ -106,7 +105,7 @@ export class LedgerComponent implements OnInit, OnDestroy {
   }
 
   private initialiseCategories(): void {
-    this.getAllCategoriesSubscription = this.categoryService.getAllCategories().subscribe({
+    this.categoryService.getAllCategories().subscribe({
       next: (response: any) => {
         const categories: Category[] = [];
         response.body.forEach((category: any) => {
@@ -134,7 +133,7 @@ export class LedgerComponent implements OnInit, OnDestroy {
   }
 
   private initialiseEntries(): void {
-    this.getAllEntriesSubscription = this.entryService.getEntriesByDate(this.selectedDate.toISOString()).subscribe({
+    this.entryService.getEntriesByDateRange(this.startOfSelectedDate, this.endOfSelectedDate).subscribe({
       next: (response: any) => {
         if (response.status === HttpStatusCode.Ok.valueOf()) {
           const entries: Entry[] = [];
@@ -199,13 +198,23 @@ export class LedgerComponent implements OnInit, OnDestroy {
   }
 
   addEntry() {
-      this.createEntrySubscription = this.entryService.createEntry(new Entry(
+
+      const now = new Date();
+      const creationDate = new Date(this.startOfSelectedDate.valueOf());
+      creationDate.setHours(now.getHours());
+      creationDate.setMinutes(now.getMinutes());
+      creationDate.setSeconds(now.getSeconds());
+      creationDate.setMilliseconds(now.getMilliseconds());
+      console.log("Creation Date: ", creationDate.toISOString());
+
+
+      this.entryService.createEntry(new Entry(
         uuid(),
         this.newEntry.type,
         this.newEntry.category,
         this.newEntry.description,
         this.newEntry.price,
-        this.selectedDate,
+        creationDate,
         new Date(),
         false,
         false
@@ -258,7 +267,7 @@ export class LedgerComponent implements OnInit, OnDestroy {
   }
 
   removeEntry(index: number) {
-    this.deleteEntrySubscription = this.entryService.deleteEntry(this.entries[index]).subscribe({
+    this.entryService.deleteEntry(this.entries[index]).subscribe({
       next: response => {
         if (response.status === HttpStatusCode.NoContent.valueOf()) {
           this.entries.splice(index, 1);
@@ -282,11 +291,11 @@ export class LedgerComponent implements OnInit, OnDestroy {
 
   saveEntryEdit(index: number) {
 
-    this.editedEntry.createdAt = new Date();
+    this.editedEntry.createdAt = this.entries[index].createdAt;
     this.editedEntry.lastUpdate = new Date();
     this.editedEntry.isDeleted = false;
 
-    this.updateEntrySubscription = this.entryService.updateEntry(this.editedEntry).subscribe({
+    this.entryService.updateEntry(this.editedEntry).subscribe({
       next: response => {
           if (response.status === HttpStatusCode.Ok.valueOf()) {
             const body = response.body as any;

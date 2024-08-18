@@ -5,15 +5,15 @@
   </div>
   <button class="change-date-button" (click)="onPreviousDayButtonClick()"><</button>
   <div class="mat-datepicker-content">
-    <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" (dateChange)="onNewDateSelected()">
+    <input matInput [matDatepicker]="picker" [(ngModel)]="startOfSelectedDate" (dateChange)="onNewDateSelected()">
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </div>
   <button class="change-date-button" (click)="onNextDayButtonClick()">></button>
-  <div class="display-aggregates-container">
+<!--  <div class="display-aggregates-container">
     <button mat-raised-button color="primary" (click)="onDisplaySummaryClick()">Summary</button>
     <display-aggregates-modal></display-aggregates-modal>
-  </div>
+  </div>-->
 </div>
 <div class="chart-table-container">
   <div class="pie-chart-container">

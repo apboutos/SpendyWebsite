@@ -26,11 +26,11 @@ export class EntryService {
     return this.entriesSubject;
   }
 
-  public getEntriesByDate(date: string | null) {
+  public getEntriesByDateRange(startingDate: Date, endingDate: Date) {
     const headers = this.getAuthenticationHeaders();
 
     return this.httpClient.get(
-      `${this.ENTRIES_URL}/date?date=${date}`,
+      `${this.ENTRIES_URL}/dateRange?startingDate=${startingDate.toISOString()}&endingDate=${endingDate.toISOString()}`,
       {headers, observe: 'response'},
     )
   }
@@ -89,11 +89,11 @@ export class EntryService {
     );
   }
 
-  public getEntryAggregatesByCategoryAndDate(categories: Category[], date: Date) {
+  public getEntryPriceSumByCategoryAndDateRange(categories: Category[], startingDate: Date, endingDate: Date) {
     const headers = this.getAuthenticationHeaders();
     const urlCategories = categories.map(c => c.uuid).join(',');
 
-    return this.httpClient.get(`${this.ENTRIES_URL}/aggregates/by-category?categories=${urlCategories}&date=${date.toISOString()}`,
+    return this.httpClient.get(`${this.ENTRIES_URL}/aggregates/by-category?categories=${urlCategories}&startingDate=${startingDate.toISOString()}&endingDate=${endingDate.toISOString()}`,
       {headers, observe: 'response'})
   }
 
